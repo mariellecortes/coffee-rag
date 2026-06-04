@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+from contextlib import asynccontextmanager
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -9,12 +10,14 @@ from fastapi.responses import JSONResponse
 from src.generation.chain import ask
 from src.embeddings.embedder import get_model
 
-app = FastAPI(title="RAG Coffee API")
 
-
-@app.on_event("startup")
-def preload_model():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     get_model()
+    yield
+
+
+app = FastAPI(title="RAG Coffee API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
