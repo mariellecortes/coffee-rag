@@ -7,8 +7,14 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from src.generation.chain import ask
+from src.embeddings.embedder import get_model
 
 app = FastAPI(title="RAG Coffee API")
+
+
+@app.on_event("startup")
+def preload_model():
+    get_model()
 
 app.add_middleware(
     CORSMiddleware,
