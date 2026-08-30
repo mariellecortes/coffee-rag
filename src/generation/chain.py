@@ -6,7 +6,7 @@ from src.retrieval.vector_store import query_collection
 
 load_dotenv(override=False)  # only fills vars not already set by the platform
 
-MODEL = "llama3-70b-8192"
+MODEL = "llama-3.3-70b-versatile"
 MAX_TOKENS = 1024
 TEMPERATURE = 0.7
 
